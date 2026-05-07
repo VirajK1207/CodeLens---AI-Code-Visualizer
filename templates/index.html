@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CodeLens — See Through Your Code</title>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <!-- Mermaid.js for diagram rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <!-- Monaco Editor loader -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="navbar-logo">
+                🔍 Code<span>Lens</span>
+            </div>
+            <span class="navbar-tag">
+                Powered by Gemini 2.5
+            </span>
+        </div>
+        <div class="navbar-right">
+            <button class="theme-toggle" id="theme-toggle">
+                Light Mode
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+
+            <!-- Language Selector -->
+            <div class="select-wrapper">
+                <span class="select-label">Language:</span>
+                <select id="language-select">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="cpp">C++</option>
+                    <option value="sql">SQL</option>
+                    <option value="html">HTML</option>
+                    <option value="rust">Rust</option>
+                </select>
+            </div>
+
+            <!-- Level Selector -->
+            <div class="select-wrapper">
+                <span class="select-label">Level:</span>
+                <select id="level-select">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">
+                        Intermediate
+                    </option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+
+            <!-- Buttons -->
+            <button class="btn btn-secondary" id="detect-btn">
+                Auto Detect Language
+            </button>
+            <button class="btn btn-primary" id="explain-btn">
+                Explain Code
+            </button>
+            <button class="btn btn-danger" id="clear-btn">
+                Clear
+            </button>
+
+        </div>
+        <!-- End Toolbar -->
+
+
+        <!-- Split Panel -->
+        <div class="split-panel">
+
+            <!-- LEFT PANEL - Code Editor -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <span>Code Editor</span>
+                    <div class="panel-header-right">
+                        <span style="font-size:11px;
+                            color:var(--text-muted);">
+                            Select code to generate diagram
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Monaco Editor mounts here -->
+                <div id="editor-container"></div>
+
+                <!-- Hint overlay -->
+                <div class="editor-hint">
+                    Select any code to see its diagram!
+                </div>
+
+            </div>
+            <!-- End Left Panel -->
+
+
+            <!-- RIGHT PANEL - Results -->
+            <div class="results-panel">
+
+                <!-- Result Tabs -->
+                <div class="result-tabs">
+                    <button class="tab-btn active"
+                        data-tab="explanation"
+                        id="explanation-tab">
+                        Summary
+                    </button>
+                    <button class="tab-btn"
+                        data-tab="detail"
+                        id="detail-tab">
+                        Detailed
+                    </button>
+                    <button class="tab-btn"
+                        data-tab="issues"
+                        id="issues-tab">
+                        Issues
+                    </button>
+                    <button class="tab-btn"
+                        data-tab="diagram"
+                        id="diagram-tab">
+                        Diagram
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+
+                    <!-- Explanation Tab -->
+                    <div class="tab-pane active"
+                        id="explanation-pane">
+                        <div id="summary-content">
+                            <div class="placeholder">
+                                <span class="placeholder-icon">
+                                    🔍
+                                </span>
+                                <h3>Ready to Analyze!</h3>
+                                <p>
+                                    Paste your code in the editor
+                                    and click Explain Code to get
+                                    started!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Tab -->
+                    <div class="tab-pane" id="detail-pane">
+                        <div id="detail-content">
+                            <div class="placeholder">
+                                <span class="placeholder-icon">
+                                    📋
+                                </span>
+                                <h3>Line by Line Breakdown</h3>
+                                <p>
+                                    Click Explain Code to see
+                                    detailed explanation of
+                                    each part!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Issues Tab -->
+                    <div class="tab-pane" id="issues-pane">
+                        <div id="issues-content">
+                            <div class="placeholder">
+                                <span class="placeholder-icon">
+                                    ⚠️
+                                </span>
+                                <h3>Issue Detection</h3>
+                                <p>
+                                    AI will detect bugs,
+                                    warnings and suggestions
+                                    in your code!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diagram Tab -->
+                    <div class="tab-pane" id="diagram-pane">
+                        <div id="diagram-content">
+                            <div class="placeholder">
+                                <span class="placeholder-icon">
+                                    🗺️
+                                </span>
+                                <h3>Visual Diagram</h3>
+                                <p>
+                                    Click Explain Code or select
+                                    any part of code to generate
+                                    a visual diagram!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End Tab Content -->
+
+            </div>
+            <!-- End Right Panel -->
+
+        </div>
+        <!-- End Split Panel -->
+
+    </div>
+    <!-- End Main Container -->
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
