@@ -84,34 +84,14 @@ def explain_code(code, language="python", level="beginner"):
         "- Be specific and accurate\n"
     )
 
-    # Retry up to 3 times
+   # Retry up to 3 times
     for attempt in range(3):
         try:
             response = client.models.generate_content(
                 model=MODEL,
                 contents=prompt
             )
-            
-            text = response.text.strip()
-
-            if text.startswith("```"):
-                text = text.split("```")[1]
-                if text.startswith("json"):
-                    text = text[4:]
-
-            result = json.loads(text)
-            result["success"] = True
-            return result
-        except json.JSONDecodeError:
-            if attempt < 2:
-                print(f"Attempt {attempt+1} failed: JSON decode error")
-                time.sleep(2)
-                continue
-            return {
-                "success": False,
-                "error": "Failed to parse AI response",
-                "raw": response.text if response else ""
-            }
+            break
         except Exception as e:
             if attempt < 2:
                 print(f"Attempt {attempt+1} failed: {e}")
@@ -121,6 +101,30 @@ def explain_code(code, language="python", level="beginner"):
                 "success": False,
                 "error": f"AI explanation failed after 3 attempts: {str(e)}"
             }
+
+        text = response.text.strip()
+
+        if text.startswith("```"):
+            text = text.split("```")[1]
+            if text.startswith("json"):
+                text = text[4:]
+
+        result = json.loads(text)
+        result["success"] = True
+        return result
+
+    except json.JSONDecodeError:
+        return {
+            "success": False,
+            "error": "Failed to parse AI response",
+            "raw": response.text if response else ""
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"AI explanation failed: {str(e)}"
+        }
 
 
 def detect_language(code):
